@@ -1,4 +1,5 @@
 //!OpenSCAD
+$fn = 200;
 
 module makePinTopper(pinD, pinHeadD) {
   union(){
@@ -65,12 +66,12 @@ difference() {
   union(){
     makeProbeBlock(6.5, 9, 0.2, 4);
     difference() {
-      translate([-3, -3, 3]){
-        makeProbeBlock(12.5, 15, 0.5, 3);
+      translate([-0.5, -0.5, 3]){
+        makeProbeBlock(7.5, 10, 0.5, 3);
       }
 
-      translate([0, 0, 3]){
-        makeProbeBlock(6.5, 9, 0.2, 4);
+      translate([0.5, 0.5, 3]){
+        makeProbeBlock(5.5, 8, 0.2, 4);
       }
     }
   }
@@ -103,42 +104,46 @@ difference() {
 translate([0, 0, 2]){
   rotate([0, 180, 0]){
     translate([0, 15, 0]){
-      difference() {
-        makeProbeBlock(6.5, 9, 0.2, 2);
+      color([0.2,0.2,1]) {
+        difference() {
+          makeProbeBlock(5.48, 7.98, 0.2, 2);
 
-        union(){
-          translate([0, (6.5 / 2), 0]){
-            cylinder(r1=1, r2=1, h=10, center=false);
-          }
-          translate([9, (6.5 / 2), 0]){
-            cylinder(r1=1, r2=1, h=10, center=false);
-          }
-          for (row = [1 : abs(1) : 3]) {
-            if (row % 2 == 1) {
-              translate([leftBorder, 0, 0]){
-                for (pin = [0 : abs(1) : 3]) {
-                  if (!(row == 3 && pin == 2)) {
-                    translate([(pin * pinSpacing), (topBorder + (row - 1) * pinSpacing), 0]){
-                      makeCentredPinTopper(padWidth, padHeight, pinDiameter, pinHeadDiameter);
+          union(){
+            translate([0, (5.48 / 2), 0]){
+              cylinder(r1=1.25, r2=1, h=10, center=false);
+            }
+            translate([7.98, (5.48 / 2), 0]){
+              cylinder(r1=1.25, r2=1, h=10, center=false);
+            }
+            for (row = [1 : abs(1) : 3]) {
+              if (row % 2 == 1) {
+                translate([0.51, 0, 0]){
+                  for (pin = [0 : abs(1) : 3]) {
+                    if (!(row == 3 && pin == 2)) {
+                      translate([(pin * pinSpacing), (0.5 + (row - 1) * pinSpacing), 0]){
+                        makeCentredPinTopper(padWidth, padHeight, pinDiameter, pinHeadDiameter);
+                      }
                     }
+
                   }
 
                 }
-
-              }
-            } else {
-              for (pin = [0 : abs(1) : 1]) {
-                translate([((leftBorder + pinSpacing / 2) + pin * pinSpacing), (topBorder + pinSpacing), 0]){
-                  makeCentredPinTopper(padWidth, padHeight, pinDiameter, pinHeadDiameter);
+              } else {
+                for (pin = [0 : abs(1) : 1]) {
+                  translate([((0.5 + pinSpacing / 2) + pin * pinSpacing), (0.5 + pinSpacing), 0]){
+                    makeCentredPinTopper(padWidth, padHeight, pinDiameter, pinHeadDiameter);
+                  }
                 }
+
               }
 
             }
 
           }
-
         }
       }
     }
   }
+}
+translate([0.51, 0.51, 4]){
 }
